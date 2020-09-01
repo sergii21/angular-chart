@@ -17,10 +17,10 @@ import {
     SimpleChange,
     ViewChild
 } from '@angular/core';
-import { D3, D3Service, Selection } from 'd3-ng2-service';
+import { Selection } from 'd3-ng2-service';
 import { fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-
+import * as D3 from 'd3';
 
 @Component({
   selector: 'app-donut-chart',
@@ -28,13 +28,13 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./donut-chart.component.scss']
 })
 export class DonutChartComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() donutChartConfig: any = [{value: 1}];
+  @Input() donutChartConfig: any = {data: [{id:1, value: 2, label: '1', color: 'green'}, {id:2, value: 1, label: '1', color: 'red'}]};
 
   @Output() sectionClick: EventEmitter<any> = new EventEmitter();
 
-  @ViewChild('container') element: ElementRef;
+  @ViewChild('container', {static: true}) element: ElementRef; 
 
-  private d3: D3; // <-- Define the private member which will hold the d3 reference
+  private d3: any; // <-- Define the private member which will hold the d3 reference
   private mobileVersion = false;
   private correctHeightForMobile: number;
   private correctWidthForMobile: number;
@@ -56,7 +56,8 @@ export class DonutChartComponent implements OnInit, OnChanges, OnDestroy {
       labelPercentageText: 'donut-chart__label-percentage-text',
       svg: 'donut-svg',
       pie: 'slice'
-    }
+    },
+    
   };
 
   private options: any;
@@ -70,8 +71,8 @@ export class DonutChartComponent implements OnInit, OnChanges, OnDestroy {
   private onlyOneNonEmptyRecord: boolean;
   private subscriptions = [];
 
-  constructor(d3Service: D3Service) {
-    this.d3 = d3Service.getD3(); // <-- obtain the d3 object from the D3 Service
+  constructor() {
+    this.d3 = D3; // <-- obtain the d3 object from the D3 Service
   }
 
   /**
@@ -80,6 +81,7 @@ export class DonutChartComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this.chartContainer = this.element.nativeElement;
     this.subscriptions.push(fromEvent(window, 'resize').pipe(debounceTime(100)).subscribe(() => this.render()));
+    this.render();
   }
 
   ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
