@@ -1,0 +1,11 @@
+.chart-tooltip {
+  position: absolute;
+  display: none;
+  width: auto;
+  height: auto;
+  border: 0 none;
+  border-radius: 10px;
+  padding: 3px;
+  text-align: center;
+  pointer-events: none;
+}

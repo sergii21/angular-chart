@@ -1,0 +1,20 @@
+
+::ng-deep .donut-chart {
+  &--inactive {
+    opacity: .7;
+  }
+  &__total-title {
+    font-size: rem(14px);
+    line-height: 1rem;
+    text-anchor: middle;
+  }
+  &__total-value {
+    font-size: rem(28px);
+    line-height: 2rem;
+    text-anchor: middle;
+  }
+
+  &__current-percentage {
+    text-anchor: middle; 
+  }
+}
